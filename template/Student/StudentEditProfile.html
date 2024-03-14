@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Student/Stylesheet/styleeditprofie.css' %}">
+    <link rel="stylesheet" href="{% static 'Student/Stylesheet/style.css' %}">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Student Profile</title> 
+    <style>
+   .alert {
+    padding: 20px;
+    background-color: #76d6d3;
+    color: white;
+    height: 60px;
+  }
+  
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+      </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="static/Admin/images/logo.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <!-- <li><a href="MainFacultyPage.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name" >Faculty</span>
+                </a></li> -->
+                <li><a href="StudentEditProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name" style="color: aqua; font-size: 22px;" >Profile</span>
+                </a></li>
+             
+                <!-- <li><a href="FacultyGiveApproval.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name" >Give approval status</span>
+                </a></li> -->
+                <li><a href="sviewtimetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name" >View Timetable</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name" >Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <!-- <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i> -->
+            
+            <div class="popup" onclick="myFunction()">
+                {% if user.u_profile_pic %}
+                <img class="profilepic" src="{{user.u_profile_pic.url}}" alt="" width="40%">
+                {% else %}
+                <img class="profilepic" src="static/Faculty/Images/profile.jpg" alt="" >
+                {% endif %}
+                <div class="popuptext" id="myPopup">
+                    {% if user.u_profile_pic %}
+                    <img class="profilepic" src="{{user.u_profile_pic.url}}"  style="width:40%">
+                    {% else %}
+                    <img src="static/Faculty/Images/profile.jpg" alt="John" style="width:40%">
+                    {% endif %}
+                    <h1 id="fname" >{{ user.u_name }}</h1>
+                    <p class="title" id="facultyname" >Student</p>
+                    <p  >Gcwus University</p>
+                    <p><button onclick="openEditProfile()" style="background-color: #2B7A77; color: white; border: 0ch;">Edit Profile</button></p> 
+                </div>
+              </div>
+
+        </div>
+
+
+        <div class="dash-content">
+            
+            <div class="activity">
+                <legend><div class="title">
+                        <i class='bx bx-user-circle'></i>
+                        <span class="text">Profile</span>
+                    </div>
+                </legend>
+                
+                <form id="formstudentprofile" style="background-color: white;" action="ssavebtn" method="post" class="Fieldset" enctype="multipart/form-data" > 
+                    {% csrf_token %} 
+                    <div class="activity-data" >
+                        <div class="Timtetablepic" >
+                            <div class="profile-pic">
+                                <label class="-label" for="file">
+                                  <span class="glyphicon glyphicon-camera"></span>
+                                  <span>Change Image</span>
+                                </label>
+                                <input id="file" type="file" name="s_pic"  onchange="loadFile(event)"/>
+                                {% if user.u_profile_pic %}
+                          
+                                <img  src="{{user.u_profile_pic.url}}"   id="output" width="200" />
+                                
+                                {% else %}
+                                <img  src="static/Faculty/Images/profile.jpg"  id="output" width="200" />
+                                {% endif %}
+                            </div>
+                              <div>
+                                <label id="fname" name="s_name" class="info">{{ user.u_name }}</label><br>
+                                <label id="info" class="info">Student</label><br>
+                                <label id="femail" name="s_email" class="info">{{ user.u_email }}</label><br>
+                              </div>
+                            </div>
+                            </div>
+                            <div class="update">
+                                <fieldset class="Fieldset" style="background-color: #daf7f6;">
+                                    <legend  style="background-color: white;">Profile</legend>
+                                    {% for message in messages %}
+                                    <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+                                    {% if message.tags %}
+                                        <div class="toast active">
+                                            <div class="toast-content">
+                                                  <div class="alert">
+                                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                                    {{ message }}
+                                                  </div>
+                                                  
+                                                    <span class="text text-2"></span>
+                                                </div>
+                                                </div>
+                                    {% endif %}
+                                {% endfor %}
+                                    <div class="updateData">
+                                        <div><label class="profilelabel" style="font-size:larger;  color:#2B7A77;">Personal Details</label></div>
+                                        <div>
+                                            <input type="text" name="s_name" id="fname" placeholder="Name" value="{{ user.u_name }}">
+                                            <input type="email" name="s_email" readonly placeholder="Email"  readonly style="background-color: rgb(236, 236, 236);" id="ffemail" value="{{ user.u_email }}">
+                                            
+                                        </div>
+                                        <div>
+                                          
+                                            <select  name="s_section" >
+                                                <option value="" disabled selected>Select Section</option>
+                                                {% for s in section %}
+                                                <option value="{{ s.section_name  }}" {% if s.section_name  == selected_section %}selected{% endif %}>{{ s.section_name  }}</option>
+                                              {% endfor %} 
+                                            </select>
+                                            <select name="s_semester" id="s_semester">
+                                                <option value="" disabled selected style="color: rgb(189, 184, 184);">Select Semester</option>
+                                                 {% for semester in semester %}
+                                                      <option value="{{ semester.semester_no }}" {% if semester.semester_no == selected_semester %}selected{% endif %}>{{ semester.semester_no }}</option>
+                                                    {% endfor %} 
+                                              </select>                                              
+                                            </div>
+                                        <div>
+                                            <select class="form-control" id="awesomeness" name="s_gender" >
+                                                <option value="" id="gender" disabled>Gender</option>
+                                                <option {% if user.s_gender == 'Male' %}selected{% endif %}>Male</option>
+                                                <option {% if user.s_gender == 'Female' %}selected{% endif %}>Female</option>
+                                            </select>   
+                                            
+                                            {% if user.u_contactNo %}
+                                            <input type="tel" name="s_c_number" placeholder="Contact Number" required pattern="^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$" title="Must the Format 00923XX-XXX-XXXX" value="{{ user.u_contactNo }}">
+                                            {% else %}
+                                            <input type="tel" name="s_c_number" placeholder="Contact Number" required pattern="^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$" title="Must the Format 00923XX-XXX-XXXX" value="">
+                                            {% endif %}   
+                                            <!-- <input type="text"  id="Section" placeholder="section" required name="s_section" value="{{ user.s_section}}"> -->
+                                            
+                                        </div>
+                                        <div>
+                                            <button id="fsavebtn"  type="submit" class="submit_button">Save change</button>
+                                        </div>
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script>
+                                          $(document).ready(function() {
+                                            $('#formstudentprofile').on('submit', function(event) {
+                                              event.preventDefault(); // prevent the form from submitting normally
+                                              var formData = new FormData(this); // create a new FormData object to store the form data
+                                              $.ajax({
+                                                url: 'ssavebtn',
+                                                type: 'POST',
+                                                data: formData,
+                                                processData: false, // tell jQuery not to process the data
+                                                contentType: false, // tell jQuery not to set contentType
+                                                success: function(response) {
+                                                  // handle the response from the server
+                                                  location.reload();
+                                                  window.scrollTo(0, 0);
+                                                }
+                                              });
+                                            });
+                                          });
+                                        </script>
+                                          
+                                    </form>
+                                </div>
+                                
+                                </fieldset>
+                            </div>
+                    </div>
+        </div>
+    </section>
+    <script src="static/Student/Javascript/script.js"></script>
+    <script>
+        function cancelform(){
+            document.getElementById('add_form').style.display = "none";
+        }
+        function cancel_edit_form(){
+            document.getElementById('edit_form').style.display = "none";
+        }
+        // files adding removing
+        var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+     
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Faculty/Stylesheets/stylefaculty.css' %}">
+    <link rel="stylesheet" href="{% static 'Faculty/Stylesheets/style.css' %}">
+ 
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script><script  src="./script.js"></script>
+    <title>Timtable</title> 
+    <style>
+      @keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.blink {
+  animation: pulse 1s ease-in-out infinite;
+}
+      .alert {
+  padding: 20px;
+  background-color:#76d6d3;
+  color: white;
+  height: 60px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+    </style>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+<!-- Include jsPDF library -->
+
+      </head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+              <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="MainFacultyPage.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="FacultyEditProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name">Profile</span>
+                </a></li>
+             
+                <li><a href="FacultyGivePrefernces.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Give Preferences</span>
+                </a></li>
+                <li><a href="FacultyViewtimetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name" style="color: aqua; font-size: 20px; ">View Timetable</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name" onclick="logout()">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                 
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <!-- <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i> -->
+            <div class="popup" onclick="myFunction()">
+              {% if user.u_profile_pic %}
+              <img class="profilepic" src="{{user.u_profile_pic.url}}" alt="" width="40%">
+              {% else %}
+              <img class="profilepic" src="static/Faculty/Images/profile.jpg" alt="" >
+              {% endif %}
+              <div class="popuptext" id="myPopup">
+                  {% if user.u_profile_pic %}
+                  <img class="profilepic" src="{{user.u_profile_pic.url}}"  style="width:40%">
+                  {% else %}
+                  <img src="static/Faculty/Images/profile.jpg" alt="John" style="width:40%">
+                  {% endif %}
+                  <h1 id="fname" >{{ user1.u_name }}</h1>
+                  <p class="title" id="facultyname" >Faculty</p>
+                  <p  >Gcwus University</p>
+                  <p><button onclick="openEditProfile()" style="background-color: #2B7A77; color: white; border: 0ch;">Edit Profile</button></p> 
+              </div>
+            </div>
+
+        </div>
+        <div class="dash-content">
+            <div class="activity">
+            <legend><div class="title">
+                    <i  class='bx bx-time'></i>
+                    <span class="text">Time Table</span>
+                     </div>
+            </legend>
+                  {% for message in messages %}
+                  <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+                  {% if message.tags %}
+                      <div class="toast active" style="margin-top: -15px;">
+                          <div class="toast-content">
+                                <div class="alert">
+                                  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                  {{ message }}
+                                </div>
+                                  <span class="text text-2"></span>
+                                  
+                              </div>
+                          </div>
+                        
+                      </div>
+                  {% endif %}
+              {% endfor %}
+              <form method="post" action="search-timetable" id="search__timetable">
+                {% csrf_token %}              
+              <div class="search" style="margin-top: 10px; margin-left: -200px;">
+                <ul style="list-style-type: none;"  >
+                  <li style="display: inline;">
+                    <select name="section" class="timetable1" id="section">
+                      <option value="" disabled selected>Select Section</option>
+                      <option value="" >All</option>
+                      {% for s in droplist_section %}
+                        <option value="{{ s.section_name }}" {% if s.section_name == search_section %}selected{% endif %}>
+                          {{ s.section_name }}
+                        </option>
+                      {% endfor %} 
+                    </select>
+                  </li>
+                  <li style="display: inline;">
+                    <select name="semester" class="timetable2" id="semester">
+                      <option value="" disabled selected>Select Semester</option>
+                      <option value="" >All</option>
+                      {% for semester in droplist_semester %}
+                        <option value="{{ semester.semester_no }}" {% if semester.semester_no == search_semester %}selected{% endif %}>
+                          {{ semester.semester_no }}
+                        </option>
+                      {% endfor %}
+                  </select></li>
+                  <li style="display: inline;"><button  type="submit" class="timetable"  id="searchtimetable">Search</button></li>
+                </ul>
+              </div>
+              <script>
+                $('#search__timetable').on('submit', function(event) {
+                 event.preventDefault();
+                 var formData = new FormData(this);
+                 $.ajax({
+                   url: 'search-timetable',
+                   type: 'POST',
+                   data: formData,
+                   processData: false,
+                   contentType: false,
+                   success: function(response) {
+                     // handle the response from the server for the search-timetable form
+                     console.log(response);
+                     location.reload();
+                     window.scrollTo(0, 0);
+                   }
+               });
+             });
+         </script>
+                </form>
+
+
+                 <li style="display: inline; position: relative; top: -50px; margin-left:  723px;"><button class="timetable" id="download">Download</button></li>
+           
+                <section id="timetable" style="position: relative; top: -50px;">
+                  <div >
+                    {% for s in semester %}
+                    <table class="content-table" style=" width: 75%; height: 5%; align-items: center; " >
+                    
+                        <thead style="height: 100%; background-color: #42c0a8; " >
+                            <tr class="tr1" >
+                           
+                           
+                              {% for Time in Time %}
+                            
+                              {% if forloop.counter == length3 %}
+                                <th class="td1" id="" colspan="{{ length2 }}">
+                                  <h class="td1" id="uniname">GCWUS</h>
+                                  <h class="td1" id="">---</h>
+                                  <h class="td1" id="">Department of</h>
+                                  <h class="td1" id="dname">Computer Science</h>
+                                </th>
+                              {% elif forloop.counter <= length4 %}
+                              <th></th>
+                              {% else %}
+                                
+                              {% endif %}
+                            {% endfor %}
+                            <th></th>
+                              </tr>
+                            <tr  >
+                              {% for Time in Time %}
+                              
+                              {% if  forloop.counter == length3  %}
+                              
+                              <th class="td2" id="" colspan="{{ length2 }}">Time Table:
+                                <h class="td2" id="{{ forloop.counter }}" >BS{{s.sem_section.section_name}}</h>
+                                <h>&nbsp&nbsp&nbsp&nbsp       </h>
+                                <h class="td2" id="{{ forloop.counter }}" ></h>
+                                  Semester:
+                                <h class="td2" id="session" style="justify-content: left; ">{{s.semester_no}}</h>
+                                <!--<h class="td2" id="fname" style="justify-content: left;">Qurat-ul-Ain</h>-->
+                            </th>
+                            {% elif forloop.counter <= length4%}
+                            <th></th>
+                            {% else %}
+
+                         
+                            {% endif %}
+                          {% endfor %}
+                          <th></th>
+                              </tr>
+                          <tr>
+                            <th>Day/Time</th>
+                            {% for Time in Time %}
+                            <th id="{{ forloop.counter }}">{{ Time.time }}</th>
+                             {% endfor %}
+                            
+                          </tr>
+                        </thead>
+                      
+                        <tbody>
+                          <tr>
+                            <td class="daytr">Monday</td>
+                            {% for meeting in Time %}
+                              {% if forloop.counter <= length %}
+                                <td>
+                                  {% for c in classes %}
+                                    {% if c.meeting_time.day == 'Monday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                      <h id="course">{{ c.course.c_name }}</h><br>
+                                      <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                      <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                      <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                    {% endif %}
+                                  {% endfor %}
+                                </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                          <tr>
+                            <td class="daytr">Tuesday</td>
+                            {% for meeting in Time %}
+                              {% if forloop.counter <= length %}
+                                <td>
+                                  {% for c in classes %}
+                                    {% if c.meeting_time.day == 'Tuesday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                      <h id="course">{{ c.course.c_name }}</h><br>
+                                      <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                      <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                      <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                    {% endif %}
+                                  {% endfor %}
+                                </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                          <tr>
+                            <td class="daytr">Wednesday</td>
+                            {% for meeting in Time %}
+                              {% if forloop.counter <= length %}
+                                <td>
+                                  {% for c in classes %}
+                                    {% if c.meeting_time.day == 'Wednesday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                      <h id="course">{{ c.course.c_name }}</h><br>
+                                      <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                      <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                      <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                    {% endif %}
+                                  {% endfor %}
+                                </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                          <tr>
+                            <td class="daytr">Thursday</td>
+                            {% for meeting in Time %}
+                              {% if forloop.counter <= length %}
+                                <td>
+                                  {% for c in classes %}
+                                    {% if c.meeting_time.day == 'Thursday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                      <h id="course">{{ c.course.c_name }}</h><br>
+                                      <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                      <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                      <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                    {% endif %}
+                                  {% endfor %}
+                                </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                          <tr>
+                            <td class="daytr">Friday</td>
+                            {% for meeting in Time %}
+                              {% if forloop.counter <= length %}
+                                <td>
+                                  {% for c in classes %}
+                                    {% if c.meeting_time.day == 'Friday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                      <h id="course">{{ c.course.c_name }}</h><br>
+                                      <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                      <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                      <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                    {% endif %}
+                                  {% endfor %}
+                                </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                          
+    
+                          </tbody>
+                   
+                      </table>
+                      {% endfor %}
+                </section>
+            </div>
+    </section>
+
+
+    <script type="text/javascript" src="static/Faculty/Javascript/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script>
+      document.getElementById('download').addEventListener('click', function() {
+        var timetableDiv = document.getElementById('timetable');
+        var tables = timetableDiv.getElementsByTagName('table');
+        var desiredWidth = 1800;
+        var timetableHTML = '';
+    
+        for (var i = 0; i < tables.length; i++) {
+          timetableHTML += '<div style="page-break-after: always;">' + tables[i].outerHTML + '</div>';
+        }
+    
+        html2pdf().from(timetableHTML).set({ 
+          width: desiredWidth, 
+          format: 'a4', 
+        }).save('TimeTable.pdf');
+      });
+    </script>
+    
+ 
+</body>
+</html>

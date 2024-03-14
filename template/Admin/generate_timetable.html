@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/style.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/generate_timetable.css' %}">
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Generate Timetable</title> 
+    <style>
+        .swal2-aqua-background {
+          background-color:  rgb(5, 119, 119) !important;
+        }
+        
+         .swal2-loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .swal2-loading-circle {
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #3498db;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+          margin-bottom: 10px;
+        }
+        
+        .swal2-loading-text {
+          color: #333;
+          font-weight: bold;
+        }
+        
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+            </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="admin_dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="editProfile.html" >
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name">Profile</span>
+                </a></li>
+                <li><a href="rooms.html">
+                    <i class='bx bxs-file-plus'></i>
+                    <span class="link-name">Room Details</span>
+                </a></li>
+                <li><a href="courses.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Course details</span>
+                </a></li>
+                <li><a href="sections.html">
+                    <i class='bx bxs-castle'></i>
+                    <span class="link-name">Section Details</span>
+                </a>
+                </li>
+                <li><a href="semesters.html">
+                    <i class='bx bxs-objects-horizontal-center'></i>
+                    <span class="link-name">Semester Details</span>
+                </a></li>
+                <li><a href="faculty.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Faculty Details</span>
+                </a></li>
+                <li><a href="students.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Student Details</span>
+                </a></li>
+                <li><a href="generate_timetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name"style="color: aqua; font-size: 20px;" >Generate Timetable</span>
+                </a></li>
+                <li><a href="viewTimetable.html">
+                    <i class='bx bx-time'></i>
+                    <span class="link-name">View Timetable</span>
+                </a></li>
+                <li><a href="check_approval_status.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name">Check approval status</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i>
+            <div class="popup" onclick="myFunction()">
+                {% if user.u_profile_pic %}
+                    <img class="profilepic" src="{{ user.u_profile_pic.url }}" alt="" style="height: 35px; width: 35px;">
+                {% else %}
+                    <img class="profilepic" src="static/Admin/images/Profilepic.png" alt="" style="height: 35px; width: 35px;">
+                {% endif %}
+                
+                <div class="popuptext" id="myPopup">
+                    {% if user.u_profile_pic %}
+                        <img src="{{ user.u_profile_pic.url }}" alt="Profile Picture" style="height: 50px; width: 50px;">
+                    {% else %}
+                        <img src="static/Admin/images/Profilepic.png" alt="John" style="height: 70px; width: 70px;"">
+                    {% endif %}
+                    <h1>{{ user.u_name }}</h1>
+                    <p class="title">Time table coordinator in CS department</p>
+                    <p>GC Women University Sialkot</p>
+                    <a href="editProfile.html"><button ><i class='bx bxs-pencil'></i> Edit profile</button></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class='bx bx-time'></i>
+                    <span class="text">Generate Timetable</span>
+                </div>
+            </div>
+            <section class="intro"">
+                <form name="add_details" action="add_details" method="post" class="details" id="details">
+                    {% csrf_token %} 
+                    <div class="class_details">
+                        <div class="department">
+                            <label for="department">Department:</label>
+                            <input name="department" type="text">
+                        </div>
+                        <div class="section">
+                            <label for="section">Section:</label>
+                            <input name="section" type="text">
+                        </div>
+                        <!-- <div class="semester">
+                            <label for="semester">Semester:</label>
+                            <select id="semester" name="semester">
+                                <option value="1st">1st</option>
+                                <option value="2nd">2nd</option>
+                                <option value="3rd">3rd</option>
+                                <option value="4rth">4th</option>
+                                <option value="5th">5th</option>
+                                <option value="6th">6th</option>
+                                <option value="7th">7th</option>
+                                <option value="8th">8th</option>
+                            </select>
+                        </div> -->
+                        <div class="shift">
+                            <label for="shift">Shift:</label>
+                            <select id="shift" name="shift">
+                                <option value="Morning">Morning</option>
+                                <option value="Evening">Evening</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="timing_details">
+                        <div class="start-time">
+                            <label>Start Time of Timetable:</label>
+                            <input name="startTime" type="time">
+                        </div>
+                        <div class="off-time">
+                            <label>End Time of Timetable</label>
+                            <input name="offTime" type="time">
+                        </div>
+                        <div class="duration">
+                            <label for="duration-input">Duration of each slot:</label>
+                            <input type="text" id="duration-input" name="duration" pattern="\d{1,2}:\d{2}" placeholder="HH:MM" step="600">
+                        </div>
+                        <!-- <div class="days">
+                            <label for="days">Working Days:</label>
+                            <select  id="start-day" name="startDay">
+                                <option value="Monday" selected>Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednessday">Wednessday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Friday</option>
+                            </select>
+                            to
+                            <select  id="last-day" name="lastDay">
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednessday">Wednessday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday" selected>Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div> -->
+                    </div>
+                    <button type="submit">save</button>
+                    <button type="reset">cancel</button>
+                </form>
+                <form class="details" id="details" name="allocation" action="allocation" method="POST" >
+                    {% csrf_token %} 
+                    <label style="padding-top: 20px;"><b>Allocate Faculty to Courses</b></label>
+                    <div class="allocation">
+                        <div class="course">
+                            <label>Course</label>
+                            <select id="course" name="course">
+                                {% for course in courses %}
+                                <option>{{course.c_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="teacher">
+                            <label>Teacher</label>
+                            <select id="teacher" name="teacher">
+                                {% for member in faculty %}
+                                <option>{{ member.u_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit">Alocate</button>
+                    <button type="reset">cancel</button>
+                </form>
+                <form action="Timetable" method="post" name="Timetable" id="Timetable">
+                    {% csrf_token %} 
+                    <div class="buttons">
+                        <button id="cancel" style="margin-top: 20px; margin-left: 44%;" type="submit">Generate Timetable</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
+    
+    <script>
+        // When the user clicks on <div>, open the popup
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+        }
+        </script>
+    <script src="static/Admin/javascript/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script> $(document).ready(function() {
+         $('#Timetable').on('submit', function(event) {
+           event.preventDefault();
+           Swal.fire({
+  title: 'Please wait',
+  html: '<div class="swal2-loading-container">' +
+    '<div class="swal2-loading-circle"></div>' +
+    '<div class="swal2-loading-text">Generating timetable...</div>' +
+    '</div>',
+  showCancelButton: false,
+  showConfirmButton: false,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+  background: '#C6EDEC',
+  onBeforeOpen: (modal) => {
+    modal.classList.add('swal2-aqua-background');
+    Swal.showLoading();
+  }
+});
+
+           var formData = new FormData(this);
+           $.ajax({
+             url: 'Timetable',
+             type: 'POST',
+             data: formData,
+             processData: false,
+             contentType: false,
+             success: function(response) {
+               console.log(response);
+               if (response.status === 'success') {
+                 // Redirect to viewTimetable.html
+                 window.location.href = 'viewTimetable.html'; // Replace '/viewTimetable' with the actual URL or URL pattern
+               }
+             }
+           });
+         });
+       });
+
+ </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/style.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/table.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/addForm.css' %}">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>students</title> 
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="admin_dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="editProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name">Profile</span>
+                </a></li>
+                <li><a href="rooms.html">
+                    <i class='bx bxs-file-plus'></i>
+                    <span class="link-name">Room Details</span>
+                </a></li>
+                <li><a href="courses.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Course details</span>
+                </a></li>
+                <li><a href="sections.html">
+                    <i class='bx bxs-castle'></i>
+                    <span class="link-name">Section Details</span>
+                </a>
+                </li>
+                <li><a href="semesters.html">
+                    <i class='bx bxs-objects-horizontal-center'></i>
+                    <span class="link-name">Semester Details</span>
+                </a></li>
+                <li><a href="faculty.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Faculty Details</span>
+                </a></li>
+                <li><a href="students.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name" style="color: aqua; font-size: 20px;" >Student Details</span>
+                </a></li>
+                <li><a href="generate_timetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name">Generate Timetable</span>
+                </a></li>
+                <li><a href="viewTimetable.html">
+                    <i class='bx bx-time'></i>
+                    <span class="link-name">View Timetable</span>
+                </a></li>
+                <li><a href="check_approval_status.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name">Check approval status</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input name="search" id="search" onkeyup="searchfun()" type="text" placeholder="Search here...">
+            </div>
+            <!-- <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i> -->
+            <div class="popup" onclick="myFunction()">
+                {% if user.u_profile_pic %}
+                    <img class="profilepic" src="{{ user.u_profile_pic.url }}" alt="" style="height: 35px; width: 35px;">
+                {% else %}
+                    <img class="profilepic" src="static/Admin/images/Profilepic.png" alt="" style="height: 35px; width: 35px;">
+                {% endif %}
+                
+                <div class="popuptext" id="myPopup">
+                    {% if user.u_profile_pic %}
+                        <img src="{{ user.u_profile_pic.url }}" alt="Profile Picture" style="height: 50px; width: 50px;">
+                    {% else %}
+                        <img src="static/Admin/images/Profilepic.png" alt="John" style="height: 70px; width: 70px;"">
+                    {% endif %}
+                    <h1>{{ user.u_name }}</h1>
+                    <p class="title">Time table coordinator in CS department</p>
+                    <p>GC Women University Sialkot</p>
+                    <a href="editProfile.html"><button ><i class='bx bxs-pencil'></i> Edit profile</button></a>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="text">Students</span>
+                </div>
+                <button id="add-button" onclick="showform()" ><i class='bx bx-plus'></i> Add new Student</button>
+                
+                <form name="add_student" id="add_form" method="post" action="add_student">
+                    {% csrf_token %} 
+                    <div class="heading">Add Student details</div>
+                    <div class="form-details">
+                        <label for="name">Student Name:</label>
+                        <input type="text" id="name" name="s_name" required>
+                        <label for="type">Student Email:</label>
+                        <input type="email" id="student_email" name="s_email" required>
+                        <label for="passward">Passward</label>
+                        <input type="password" class="form-control" id="passward"  required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="s_password">
+                        <label for="Gender">Gender</label>
+                        <select name="s_gender">
+                            <option>male</option>
+                            <option>female</option>
+                            <option>transgender</option>
+                        </select>
+                        <label for="Session">Session:</label>
+                        <input type="text" id="student_session" name="s_session" required>
+                        <label for="Semester">Semester:</label>
+                        <input type="text" id="student_semester" name="s_semester" required>
+                        <label for="department">Department:</label>
+                        <input type="text" id="student_department" name="s_department" required>
+                        <div class="buttons">
+                            <button id="cancel" onclick="cancelform()" type="button">Cancel</button>
+                            <button id="cancel" type="submit">Save</button>
+                        </div>
+                        
+                    </div>
+                </form>
+                
+                {% for student in students %}
+                <form name="edit_student" class="edit_form" id="edit_form-{{forloop.counter}}" method="post" action="/edit_student/{{student.id}}">
+                    {% csrf_token %} 
+                    <div class="heading">Edit Student details</div>
+                    <div class="form-details">
+                        <label for="name">Student Name:</label>
+                        <input type="text" id="name" name="s_name" value="{{student.u_name}}">
+                        <label for="type">Student Email:</label>
+                        <input type="email" id="student_email" name="s_email" value="{{student.u_email}}">
+                        <label for="Gender">Gender</label>
+                        <select name="s_gender">
+                            <option {% if member.f_gender == 'female' %}selected{% endif %}>female</option>
+                            <option {% if member.f_gender == 'male' %}selected{% endif %}>male</option>
+                            <option {% if member.f_gender == 'transgender' %}selected{% endif %}>transgender</option>
+                        </select>
+                        <label for="Session">Session:</label>
+                        <input type="text" id="student_session" name="s_session" value="{{student.s_session}}">
+                        <label for="Semester">Semester:</label>
+                        <input type="text" id="student_semester" name="s_semester" value="{{student.s_semester}}">
+                        <label for="department">Department:</label>
+                        <input type="text" id="student_department" name="s_department" value="{{student.u_department}}">
+                        <div class="buttons">
+                            <button id="cancel" class="cancel" type="button" data-counter="{{forloop.counter}}" onclick="cancel_edit_form(this.dataset.counter)">Cancel</button>
+                            <button id="cancel" type="submit">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+                {% for student in students %}
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                  <!-- sweetalert js -->
+                  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script>
+                    var m = "{{ message }}";
+                    Swal.fire({
+                      icon: 'info',  // Use error icon
+                      // Use cross symbol HTML
+                      text: m,
+                      confirmButtonColor: '#2B7A77',
+                      color: 'red',
+                      background: '#C6EDEC',
+                      allowEscapeKey: false,
+                      icon_color:'red',
+                      showClass: {
+                        popup: 'my-icon'
+                      },
+                    });
+                  </script>
+                
+                {% endif %}
+              {% endfor %}
+              <form name="mail_student" class="mail_form" id="mail_form-{{forloop.counter}}" method="post" action="mail_student/{{student.id}}">
+                {% csrf_token %} 
+                <div class="heading">Send password via mail</div>
+                <div class="form-details">
+                    <label for="type">Username/Email</label>
+                    <input type="email" id="email" name="f_email" value="{{student.u_email}}">
+                    <label for="type">Password</label>
+                    <input type="password" id="password" name="s_password" value="{{student.u_password}}">
+                    <div class="buttons">
+                        <button id="cancel" class="cancel" type="button" data-counter="{{forloop.counter}}" onclick="cancel_mail_form(this.dataset.counter)">Cancel</button>
+                        <button id="cancel" type="submit">Send mail</button>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+            <section class="intro">
+                              <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                <table class="table table-striped mb-0"  id="table">
+                                  <thead style="background-color: #002d72;">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Gender</th>
+                                        <th scope="col">Department</th>
+                                        <th scope="col">Session</th>
+                                        <th scope="col">Semester</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% for student in students %}
+                                    <tr>
+                                        <td>{{ student.u_name}}</td>
+                                        <td>{{ student.u_email}}</td>
+                                        <td>{{ student.u_gender}}</td>
+                                        <td>{{ student.u_department}}</td>
+                                        <td>{{ student.s_session}}</td>
+                                        <td>{{ student.s_semester}}</td>
+                                        <td class="action">
+                                            <a href="del_student/{{ student.id }}">
+                                                <i class='bx bxs-trash-alt'></i>
+                                            </a>
+                                            <a href="javascript:show_edit_form({{forloop.counter}})">
+                                                <i class='bx bxs-edit'></i>
+                                            </a>
+                                            <a href="javascript:show_mail_form({{forloop.counter}})">
+                                                <i class='bx bxs-envelope'></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                              </div>
+              </section>
+                
+        </div>
+    </section>
+    <script src="static/Admin/javascript/addForm.js"></script>
+    <script src="static/Admin/javascript/script.js"></script>
+    <script>
+        function cancelform(){
+            document.getElementById('add_form').style.display = "none";
+        }
+        function cancel_edit_form(counter) {
+            var form = document.getElementsByClassName('edit_form')[counter-1];
+            form.style.display = 'none';
+        }
+        function cancel_mail_form(counter) {
+            var form = document.getElementsByClassName('mail_form')[counter-1];
+            form.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

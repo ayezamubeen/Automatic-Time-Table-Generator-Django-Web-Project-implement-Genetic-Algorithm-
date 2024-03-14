@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/styleAdmin.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/style.css' %}">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Time Table</title> 
+</head>
+       <style>
+.alert {
+  padding: 20px;
+  background-color: #76d6d3;
+  color: white;
+  height: 60px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+    </style>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+              <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="admin_dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="editProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name">Profile</span>
+                </a></li>
+                <li><a href="rooms.html">
+                    <i class='bx bxs-file-plus'></i>
+                    <span class="link-name">Room Details</span>
+                </a></li>
+                <li><a href="courses.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Course details</span>
+                </a></li>
+                <li><a href="sections.html">
+                  <i class='bx bxs-castle'></i>
+                  <span class="link-name">Section Details</span>
+              </a>
+              </li>
+              <li><a href="semesters.html">
+                  <i class='bx bxs-objects-horizontal-center'></i>
+                  <span class="link-name">Semester Details</span>
+              </a></li>
+                <li><a href="faculty.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Faculty Details</span>
+                </a></li>
+                <li><a href="students.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Student Details</span>
+                </a></li>
+                <li><a href="generate_timetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name">Generate Timetable</span>
+                </a></li>
+                <li><a href="viewTimetable.html">
+                    <i class='bx bx-time'></i>
+                    <span class="link-name" style="color: aqua; font-size: 20px;" >View Timetable</span>
+                </a></li>
+                <li><a href="check_approval_status.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name">Check approval status</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+      <div class="top">
+          <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+          <div class="search-box">
+              <i class="uil uil-search"></i>
+              <input type="text" placeholder="Search here...">
+          </div>
+          <!-- <i class='bx bx-upload upload'></i>
+          <i class='bx bx-notification notification'></i> -->
+          
+          <div class="popup" onclick="myFunction()">
+              <img class="profilepic" src="static/Admin/images/profile.jpg" alt="">
+              <div class="popuptext" id="myPopup">
+                  <img src="static/Admin/images/profile.jpg" alt="John" style="width:50%">
+                  <h1>Arfa Sikandar</h1>
+                  <p class="title">Time table coordinator in CS department</p>
+                  <p>GC Women University Sialkot</p>
+                  <p><button ><i class='bx bxs-pencil'></i> Edit profile</button></p>
+                  
+              </div>
+          </div>
+
+      </div>
+
+
+      <div class="dash-content">
+          <div class="activity">
+              <legend><div class="title">
+                      <i  class='bx bx-time'></i>
+                      <span class="text">Time Table</span>
+                      <button class="timetable"   style=" background-color:rgb(54, 151, 151);left: 0; top: 50%;  margin-left: 100px; width: 35%; margin-right: -90px;"  id="btn1"  >Edit Time Table</button>
+                      <!-- Replace_lecture_Slot -->
+                     
+                                    
+
+                        <button class="timetable"  style=" background-color:rgb(54, 151, 151);left: 0; top: 50%;  margin-left: 100px; width: 35%; margin-right: -5px;"  id="btn2"  >Send Notification for Approval</button>
+       
+                       
+                  </div>
+              </legend>
+               <form action="referencefunt"  id="form2"  style="display: none; position: fixed; top: 55%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; background-color: none; width: 50%; max-width: 800px; padding: 20px; box-sizing: border-box; " method="post">
+                          {% csrf_token %} 
+                          
+                               
+                                      <fieldset class="Fieldset">
+                                        <span class="closebtn" onclick="closePopup();">&times;</span>
+                                                
+                                          <h1 style="text-align: center; color: #f2f7f6; top: 120px; background-color:#2B7A77;">Set Timer for Give Approval</h1>
+                                          <div class="updateData">
+                                            <div>
+                                              <label style="font-size:large; color: rgb(82, 81, 81);">Start Time</label>
+                                            </div>
+                                            <div>
+                                              
+                                              {% if start_datetime %}
+                                                <input type="datetime-local" class="ptime" value="{{ start_datetime|date:'Y-m-d\TH:i' }}:00" id="pstime" name="approve_start_time" style="width: 450px;">
+                                              {% else %}
+                                                <input type="datetime-local" class="ptime" value="{{ current_datetime|date:'Y-m-d\TH:i' }}" id="pstime" name="approve_start_timee" style="width: 450px;">
+                                              {% endif %}
+
+                                            </div>
+                                            
+                                            <div>
+                                              <label style="font-size:large; color: rgb(82, 81, 81);">End Time</label>
+                                            </div>
+                                            <div>
+                                              {% if end_datetime %}
+                                                <input type="datetime-local" class="ptime" value="{{ end_datetime|date:'Y-m-d\TH:i' }}:00" id="petime" name="approve_end_time" style="width: 450px;">
+                                              {% else %}
+                                                <input type="datetime-local" class="ptime" value="" id="petime" name="approve_end_timee" style="width: 450px;">
+                                              {% endif %}
+                                            </div>
+                                            
+                                            
+                                            <button id="submitga" type="submit" style="display: block; margin-left: 330px ; top: 30px; bottom: 20px;"  style="text-align: center;">Submit</button>
+                                                
+                                                </fieldset>
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script>
+                                                $(document).ready(function() {
+                                                  $('#form2').on('submit', function(event) {
+                                                    event.preventDefault(); // prevent the form from submitting normally
+                                                    var formData = new FormData(this); // create a new FormData object to store the form data
+                                                    $.ajax({
+                                                      url: 'referencefunt',
+                                                      type: 'POST',
+                                                      data: formData,
+                                                      processData: false, // tell jQuery not to process the data
+                                                      contentType: false, // tell jQuery not to set contentType
+                                                      success: function(response) {
+                                                        // handle the response from the server
+                                                        location.reload();
+                                                        window.scrollTo(0, 0);
+                                                      }
+                                                    });
+                                                  });
+                                                });
+                                                
+                                              </script>
+                             
+                                      </form>
+                                  {% for message in messages %}
+                                                    <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+                                                    {% if message.tags %}
+                                                        <div class="toast active" style="margin-top: -15px;">
+                                                            <div class="toast-content">
+                                                                  <div class="alert">
+                                                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                                                    {{ message }}
+                                                                  </div>
+                                                                    <span class="text text-2"></span>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                          
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+
+
+                            
+              <form method="post" action="search-timetable" id="search__timetable">
+                {% csrf_token %}              
+              <div class="search" style="margin-top: 10px; margin-left: -200px;">
+                <ul style="list-style-type: none;"  >
+                  <li style="display: inline;">
+                    <select name="section" class="timetable1" id="section">
+                      <option value="" disabled selected>Select Section</option>
+                      <option value="" >All</option>
+                      {% for s in droplist_section %}
+                        <option value="{{ s.section_name }}" {% if s.section_name == search_section %}selected{% endif %}>
+                          {{ s.section_name }}
+                        </option>
+                      {% endfor %} 
+                    </select>
+                  </li>
+                  <li style="display: inline;">
+                    <select name="semester" class="timetable2" id="semester">
+                      <option value="" disabled selected>Select Semester</option>
+                      <option value="" >All</option>
+                      {% for semester in droplist_semester %}
+                        <option value="{{ semester.semester_no }}" {% if semester.semester_no == search_semester %}selected{% endif %}>
+                          {{ semester.semester_no }}
+                        </option>
+                      {% endfor %}
+                  </select></li>
+                  <li style="display: inline;"><button  type="submit" class="timetable"  id="searchtimetable">Search</button></li>
+                </ul>
+              </div>
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script>
+                $('#search__timetable').on('submit', function(event) {
+                 event.preventDefault();
+                 var formData = new FormData(this);
+                 $.ajax({
+                   url: 'search-timetable',
+                   type: 'POST',
+                   data: formData,
+                   processData: false,
+                   contentType: false,
+                   success: function(response) {
+                     // handle the response from the server for the search-timetable form
+                     console.log(response);
+                     location.reload();
+                     window.scrollTo(0, 0);
+                   }
+               });
+             });
+         </script>
+                </form>
+
+
+                 <li style="display: inline; position: relative; top: -49px; margin-left:  794px;"><button class="timetable" id="download">Download</button></li>
+           
+              <section id="timetable" style="position: relative; top: -50px;">
+                <div >
+                  {% for s in semester %}
+                            <table class="content-table" style=" margin-left: 130px; width: 75%; height: 5%; align-items: center; " >
+                              <thead style="height: 100%; background-color: #42c0a8; " >
+                                <tr class="tr1" >
+                               
+                               
+                                  {% for Time in Time %}
+                                
+                                  {% if forloop.counter == length3 %}
+                                    <th class="td1" id="" colspan="{{ length2 }}">
+                                      <h class="td1" id="uniname">GCWUS</h>
+                                      <h class="td1" id="">---</h>
+                                      <h class="td1" id="">Department of</h>
+                                      <h class="td1" id="dname">Computer Science</h>
+                                    </th>
+                                  {% elif forloop.counter <= length4 %}
+                                  <th></th>
+                                  {% else %}
+                                    
+                                  {% endif %}
+                                {% endfor %}
+                                <th></th>
+                                  </tr>
+                                <tr  >
+                                  {% for Time in Time %}
+                                  
+                                  {% if  forloop.counter == length3  %}
+                                  
+                                  <th class="td2" id="" colspan="{{ length2 }}">Time Table:
+                                    <h class="td2" id="{{ forloop.counter }}" >BS{{s.sem_section.section_name}}</h>
+                                    <h>&nbsp&nbsp&nbsp&nbsp       </h>
+                                    <h class="td2" id="{{ forloop.counter }}" ></h>
+                                      Semester:
+                                    <h class="td2" id="session" style="justify-content: left; ">{{s.semester_no}}</h>
+                                    <!--<h class="td2" id="fname" style="justify-content: left;">Qurat-ul-Ain</h>-->
+                                </th>
+                                {% elif forloop.counter <= length4%}
+                                <th></th>
+                                {% else %}
+    
+                             
+                                {% endif %}
+                              {% endfor %}
+                              <th></th>
+                                  </tr>
+                              <tr>
+                                <th>Day/Time</th>
+                                {% for Time in Time %}
+                                              
+                                                <th id="{{ forloop.counter }}">{{ Time.time }}</th>
+                                             
+                                            {% endfor %}
+                                
+                              </tr>
+                            </thead>
+                          
+                            <tbody>
+                              <tr>
+                                <td class="daytr">Monday</td>
+                                {% for meeting in Time %}
+                                  {% if forloop.counter <= length %}
+                                    <td>
+                                      {% for c in classes %}
+                                        {% if c.meeting_time.day == 'Monday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                          <h id="course">{{ c.course.c_name }}</h><br>
+                                          <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                          <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                          <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                  {% endif %}
+                                {% endfor %}
+                              </tr>
+                              <tr>
+                                <td class="daytr">Tuesday</td>
+                                {% for meeting in Time %}
+                                  {% if forloop.counter <= length %}
+                                    <td>
+                                      {% for c in classes %}
+                                        {% if c.meeting_time.day == 'Tuesday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                          <h id="course">{{ c.course.c_name }}</h><br>
+                                          <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                          <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                          <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                  {% endif %}
+                                {% endfor %}
+                              </tr>
+                              <tr>
+                                <td class="daytr">Wednesday</td>
+                                {% for meeting in Time %}
+                                  {% if forloop.counter <= length %}
+                                    <td>
+                                      {% for c in classes %}
+                                        {% if c.meeting_time.day == 'Wednesday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                          <h id="course">{{ c.course.c_name }}</h><br>
+                                          <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                          <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                          <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                  {% endif %}
+                                {% endfor %}
+                              </tr>
+                              <tr>
+                                <td class="daytr">Thursday</td>
+                                {% for meeting in Time %}
+                                  {% if forloop.counter <= length %}
+                                    <td>
+                                      {% for c in classes %}
+                                        {% if c.meeting_time.day == 'Thursday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                          <h id="course">{{ c.course.c_name }}</h><br>
+                                          <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                          <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                          <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                  {% endif %}
+                                {% endfor %}
+                              </tr>
+                              <tr>
+                                <td class="daytr">Friday</td>
+                                {% for meeting in Time %}
+                                  {% if forloop.counter <= length %}
+                                    <td>
+                                      {% for c in classes %}
+                                        {% if c.meeting_time.day == 'Friday' and c.meeting_time.time == meeting.time and c.class_semester.semester_no == s.semester_no and c.section.section_name == s.sem_section.section_name %}
+                                          <h id="course">{{ c.course.c_name }}</h><br>
+                                          <h id="coursecode">{{ c.course.c_code }}</h><br>
+                                          <h id="fname">{{ c.instructor.u_name }}</h><br>
+                                          <h>Room {{ c.room.r_name }}</h><h id="roomno"></h>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                  {% endif %}
+                                {% endfor %}
+                              </tr>
+                              
+        
+                              </tbody>
+                       
+                          </table>
+                          {% endfor %}
+                              </section>
+                </div>
+                <form action="Replace_lecture_Slot"   id="form1" class="hidden" style="display: none; position:fixed; top: 360px;  left: 55%; transform: translate(-50%, -50%); z-index: 9999; background-color:none; width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box; " method="post">
+                  {% csrf_token %} 
+                       
+                              <fieldset class="Fieldset" >
+                                <span class="closebtn" onclick="closePopup();">&times;</span>
+                                    
+                                      
+                                  <h1   style="text-align: center; color: #f2f7f6; top: 120px; background-color:#2B7A77; ">Swap The Lectures</h1>
+                                  
+                                  
+                              <label style="display: block; text-align: center; margin-top: 20px; font-size: 18px;">What do you want?</label>
+                              <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                                <div class="checkbox_container">
+                                  <input type="radio" name="option"  value="Add" id="Add">
+                                  <label for="swap" style="display: inline-block; cursor: pointer;">Add a Lecture</label>
+                                 
+                                  <input type="radio" name="option"  value="swap" id="swap">
+                                  <label for="swap" style="display: inline-block; cursor: pointer;">Swap Lecture</label>
+                                  <input type="radio" name="option"  value="remove" id="remove">
+                                  <label for="remove" style="display: inline-block; cursor: pointer; margin-right: 20px;">Remove a Lecture</label>
+                                  
+                                  <!-- <input type="radio" name="option" value="Edit" id="Edit">
+                                  <label for="swap" style="display: inline-block; cursor: pointer;">Edit a Lecture</label> -->
+                                </div>
+                              </div>
+     
+                                  <div class="updateData" style="max-height: 600px;  overflow-y: auto;">
+                                      <div>
+                                        <select name="course_select"  id="course-select" style="width: 100%; display: none;">
+                                          <option value="" disabled selected>Select Course Code</option>
+                                          {% for course in courses %}
+                                            <option value="{{ course.c_code }}">{{ course.c_code }}</option>
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="group_edit" style="display: none; margin-top: -30px; ">
+                                      <select name ="course-select_edit" id="course-select_edit" style="width: 100%;">
+                                        <option value="" disabled selected>Select Cohhhurse Code</option>
+                                        {% for course in courses %}
+                                          <option value="{{ course.c_code }}">{{ course.c_code }}</option>
+                                        {% endfor %}
+                                      </select>
+                                  </div>
+                                    <!-- <div class="group_Edit_Lecture " style="display: none;  ">
+                                      <select name="instructor_Edit"  id="instructor_Edit"  style="width: 100%;">
+                                        <option value="" disabled selected>Select instructor</option>
+                                        {% for f in faculty %}
+                                          <option value="{{ f.u_name}}">{{ f.u_name }}</option>
+                                        {% endfor %}
+                                      </select> -->
+                                    <!-- <select name="section_Edit"  id="section_Edit"  style="width: 100%;">
+                                      <option value="" disabled selected>Select Section</option>
+                                      {% for s in droplist_section %}
+                                        <option value="{{ s.section_name }}">{{ s.section_name }}</option>
+                                      {% endfor %} -->
+                                    <!-- </select> -->
+                                    <!-- </div> -->
+                                  
+                                    <!-- <div class="group_Edit_Lecture " style="display: none;  ">
+                                      <select name="semester_Edit"  id="semester_Edit"  style="width: 100%;">
+                                        <option value="" disabled selected>Select Semester</option>
+                                        {% for semester in droplist_semester %}
+                                        <option value="{{ semester.semester_no }}">
+                                          {{ semester.semester_no }}
+                                        </option>
+                                      {% endfor %}
+                                      </select>
+                                    </div> -->
+                                    <div class="group_Add_Lecture" style=" display: none;" >
+                                      <select   name="course_add"  id="course_add"  style="width: 100%;">
+                                        <option value="" disabled selected>Select course</option>
+                                        {% for s in courses %}
+                                          <option value="{{ s.c_code  }}">{{ s.c_code }}</option>
+                                        {% endfor %}
+                                      </select>
+                                      <select name="instructor_add"  id="instructor_add"  style="width: 100%; ">
+                                        <option value="" disabled selected>Select instructor</option>
+                                        {% for f in faculty %}
+                                          <option value="{{ f.u_name }}">{{ f.u_name }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </div>
+                                    <div  class="group_Add_Lecture" style=" display: none;" >
+                                    <select  name="section_add"  id="section_add"  style="width: 100%;">
+                                      <option value="" disabled selected>Select Section</option>
+                                      {% for s in droplist_section %}
+                                        <option value="{{ s.section_name }}">{{ s.section_name }}</option>
+                                      {% endfor %}
+                                    </select>
+                                    <select  name="semester_add"  id="semester_add"  style="width: 100%;">
+                                      <option value="" disabled selected>Select Semester</option>
+                                      {% for semester in droplist_semester %}
+                                      <option value="{{ semester.semester_no }}">
+                                        {{ semester.semester_no }}
+                                      </option>
+                                    {% endfor %}
+                                    </select>
+                                    </div>
+                                   
+                                <div class="group_lecture_swap1" style="display: none;" >
+                                  <select name="instructor_Edit" class="group_Edit_Lecture" id="instructor_Edit"  style="width: 100%; display: none;">
+                                    <option value="" disabled selected>Select instructor</option>
+                                    {% for f in faculty %}
+                                      <option value="{{ f.u_name}}">{{ f.u_name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                      <input type="text" name="instructor" id="instructor" style="background-color: white; width: 100%;" readonly>
+                                      <input type="text" name="course" id="Course" style="background-color: white; width: 100%;" readonly>
+                                      
+                                     
+                                </div>
+                                <div class="group_lecture_swap1" style="display: none;" >
+                                  <input type="text" name="section" id="section1" style="background-color: white;" readonly>
+                                  <input type="text" name="semester" id="semester1" style="background-color: white;" readonly>
+                                </div>
+                                <div class="group_lecture_swap1" style="display: none;" >
+                                      <input type="text" name="day" id="day" style="background-color: white;" readonly>
+                                      <input type="text" name="time" id="Time" style="background-color: white;" readonly>
+                                </div>
+                                <div class="group_lecture_swap1" style="display: none;" >
+                                      <input type="text" name="room" id="Room" style="background-color: white;" readonly>
+                                     
+                                </div>
+                                <table style="display: none;" class="table table-striped mb-0" id="table">
+                                  <label  style="display: none; font-weight: bold;  " id="hint">Select a row<label style="color: red;">*</label> </Select></label>
+                                  <thead style="background-color: #108f7a; color: white;">
+                                    <tr>
+                                      <th scope="col">Instructor Name</th>
+                                      <th scope="col">Course Name</th>
+                                      <th scope="col">Section</th>
+                                      <th scope="col">Semester</th>
+                                      <th scope="col">Time</th>
+                                      <th scope="col">Day</th>
+                                      <th scope="col">Room</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% for c in classes %}
+                                    <tr class="course-row cursor-row" data-course-code="{{ c.course.c_code }}">
+                                      <td style="width: 150px;">{{ c.instructor.u_name }}</td>
+                                      <td style="width: 200px;">{{ c.course.c_name }}</td>
+                                      <td style="width: 100px;">{{ c.section.section_name }}</td>
+                                      <td style="width: 100px;">{{ c.class_semester.semester_no }}</td>
+                                      <td style="width: 100px;">{{ c.meeting_time.time }}</td>
+                                      <td style="width: 100px;">{{ c.meeting_time.day }}</td>
+                                      <td style="width: 100px;">{{ c.room.r_name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                                
+                                    </table>
+                                <h1 class="swap"  style="text-align: center; color: #f2f7f6; top: 120px; color:#2B7A77; display: none;">Swap With</h1>
+                                      <div></div>
+                                <div class="swap" style="display: none;">  
+                                  <div class="checkbox_container">
+                                  <input  type="radio"name="agreenoyes" style="text-align: center; " value="in_free_slot" id="in_slot" >
+                                  <label for="" id="yes"  >in Free Slot</label>
+                                  </div>
+                                  <div class="checkbox_container" >
+                                  <input type="radio" name="agreenoyes"  style="text-align: center; " value="lecture" id="lecture" >
+                                  <label for="" id="no" >With Lecture</label>
+                                  </div>
+                                </div> 
+                                   <div id="1" class="group_free_slot_swap" style="display: none;">
+                                    <input type="text" name="slot_day" id="slot_day" style="background-color: white;" readonly>
+                                    <input type="text" name="slot_time" id="slot_time" style="background-color: white;" readonly>
+                                </div>
+                                <div id="1" class="group_free_slot_swap" style="display: none;">
+                                  <input type="text" name="slot_room" id="slot_room" style="background-color: white;" readonly>
+                                </div>
+                               
+                                <!-- style="display: none;" -->
+                                <table style="display: none;" class="table table-striped mb-0" id="table2">
+                                  <label  style="display: none; font-weight: bold;  " id="hint_freeslot">Select a row<label style="color: red;">*</label> </Select></label>
+                                  <thead style="background-color: #108f7a; color: white; display: table-header-group;">
+                                    <tr>
+                                      <th scope="col">Day</th>
+                                      <th scope="col">Time</th>
+                                      <th scope="col">Rooms</th>
+                                     
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  
+                                      {% for data in non_matching_data %}
+                                      <tr class="course-row cursor-row" data-instructor="{{ data.Instructor }}" data-section="{{ data.section }}" data-semester="{{ data.semester }}" data-day="{{ data.day }}" data-time="{{ data.time }}">
+                                        <td style="width: 200px;">{{ data.day }}</td>
+                                          <td style="width: 200px;">{{ data.time }}</td>
+                                          <td style="width: 200px;">{{ data.room }}</td>
+                                        </tr>
+                                      {% endfor %}
+                                    
+                                  </tbody>
+                                </table>
+                                
+                              <div class="group3" style="display: none;">
+                                <select name ="course_select1" id="course-select1" style="width: 100%;">
+                                  <option value="" disabled selected>Select Course Code</option>
+                                  {% for course in courses %}
+                                    <option value="{{ course.c_code }}">{{ course.c_code }}</option>
+                                  {% endfor %}
+                                </select>
+                            </div>
+                           
+
+  
+                            <div class="group_lecture_swap2" style="display: none;">
+                             
+                              <input type="text" name="instructor1" id="instructor1" style="background-color: white;" readonly>
+                              <input type="text" name="course1" id="course1" style="background-color: white;" readonly>
+                            
+                            </div>
+                            <div class="group_lecture_swap2" style="display: none;">
+                              <input type="text" name="time1"  id="time1" style="background-color: white;" readonly>
+                           
+                              <input type="text" name="day1" id="day1" style="background-color: white;" readonly>
+                               </div>
+                            <div class="group_lecture_swap2" style="display: none;">
+                              <input type="text" name="room1" id="room1" style="background-color: white;" readonly>
+                            </div>
+                            <table style="display: none;" class="table table-striped mb-0" id="table1">
+                              <label  style="display: none; font-weight: bold;  " id="hint_1">Select a row<label style="color: red;">*</label> </Select></label>
+                                  
+                              <thead style="background-color: #108f7a; color: white;">
+                                <tr>
+                                  <th scope="col">Instructor Name</th>
+                                  <th scope="col">Course Name</th>
+                                  <th scope="col">Section</th>
+                                  <th scope="col">Semester</th>
+                                  <th scope="col">Time</th>
+                                  <th scope="col">Day</th>
+                                  <th scope="col">Room</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for c in classes %}
+                                <tr class="course-row cursor-row" data-course-code="{{ c.course.c_code }}">
+                                  <td style="width: 150px;">{{ c.instructor.u_name }}</td>
+                                  <td style="width: 200px;">{{ c.course.c_name }}</td>
+                                  <td style="width: 100px;">{{ c.section.section_name }}</td>
+                                  <td style="width: 100px;">{{ c.class_semester.semester_no }}</td>
+                                  <td style="width: 100px;">{{ c.meeting_time.time }}</td>
+                                  <td style="width: 100px;">{{ c.meeting_time.day }}</td>
+                                  <td style="width: 100px;">{{ c.room.r_name }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                            
+                            
+                            
+                        
+                                    <button id="submitga" type="submit" style="display: block; margin-left: 420px ; top: 30px; bottom: 20px;"  style="text-align: center;">Confirm</button>
+                                  </div>
+                                        </fieldset>
+                                        
+                              </form>
+                             
+                              
+                              
+                              
+                              
+                              
+                              <script>
+                                $('#form1').on('submit', function(event) {
+                                  
+                                  event.preventDefault();
+                                  var formData = new FormData(this);
+                                  $.ajax({
+                                    url: 'Replace_lecture_Slot',
+                                    type: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                      console.log(response);
+                                      if (response.status === 'success') {
+                                        // Redirect to Home.html
+                                        location.reload();
+                                        window.scrollTo(0, 0); // Replace '/Home/Home.html' with the actual URL
+                                      } else  {
+                                        var data = response;
+                                        var errorMessage = response.error_message;
+                                       alert(errorMessage);
+                                      }
+                                    },
+                                      });
+                                      event.preventDefault();
+                                    });
+
+
+                              </script>
+                               <div id="classesData" style="display: none; background-color: #91f3e1;">
+                                <table>
+                                {% for c in classes %}
+                                  <tr data-semester1="{{ c.class_semester.semester_no }}" data-day1="{{ c.meeting_time.day }}" data-section1="{{ c.section.section_name }}" data-day="{{ data.day }}" data-time="{{ c.meeting_time.time }}">
+                                    <td id="">{{ c.meeting_time.day }}</td>
+                                    <td id="">{{ c.meeting_time.time }}</td>
+                                    <td id="">{{ c.class_semester.semester_no }}</td>
+                                    <td id="">{{ c.section.section_name }}</td>
+                                  </tr>
+                                {% endfor %}
+                              </table>
+                              </div>
+        </section>
+  <script src="static/Admin/javascript/addForm.js"></script>
+  <script src="static/Admin/javascript/script.js"></script>
+<script>
+  function closePopup() {
+  const form1 = document.getElementById("form1");
+  form1.style.display = 'none';
+  form1.classList.remove("hidden");
+  
+  const form2 = document.getElementById("form2");
+  form2.style.display = 'none';
+  form2.classList.remove("hidden");
+  location.reload();
+}
+
+
+const button2 = document.getElementById("btn2");
+const form2 = document.getElementById("form2");
+const smallWidth = "400px";
+const largeWidth = "100%";
+
+button2.addEventListener("click", function() {
+  form2.style.width = form2.style.width === smallWidth ? largeWidth : smallWidth;
+  form2.style.display = form2.style.display === "none" ? "block" : "none";
+});
+const button1 = document.getElementById("btn1");
+  const form1 = document.getElementById("form1");
+  const largeWidth1 = "100%";
+  button1.addEventListener("click", function() {
+    form1.style.width =  largeWidth1;
+    form1.style.display = form1.style.display === "none" ? "block" : "none";
+  });
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById('download').addEventListener('click', function() {
+  var timetableDiv = document.getElementById('timetable');
+  var tables = timetableDiv.getElementsByTagName('table');
+  var desiredWidth = 595.28; // A4 page width in points (1 point = 1/72 inch)
+  var timetableHTML = '';
+
+  for (var i = 0; i < tables.length; i++) {
+    timetableHTML += '<div style="page-break-after: always;">' + tables[i].outerHTML + '</div>';
+  }
+
+  html2pdf().from(timetableHTML).set({
+    margin: [10, 10, 10, 10], // Set margins (top, right, bottom, left) in millimeters
+    width: desiredWidth,
+    height: 'auto', // Auto height to fit the content
+    filename: 'TimeTable.pdf'
+  }).save();
+});
+
+
+  
+  
+// Get all rows with the class "cursor-row"
+const rows = document.querySelectorAll(".cursor-row");
+
+// Add event listeners to each row
+rows.forEach((row) => {
+  // Mouseover event
+  row.addEventListener("mouseover", () => {
+    row.style.cursor = "pointer"; // Change the cursor style
+    row.style.fontSize = "17px"; // Increase the font size
+    row.style.backgroundColor = "#91f3e1"; // Change the background color
+  });
+
+  // Mouseout event
+  row.addEventListener("mouseout", () => {
+    row.style.cursor = "default"; // Restore the default cursor style
+    row.style.fontSize = ""; // Restore the default font size
+    row.style.backgroundColor = ""; // Restore the default background color
+  });
+});
+
+
+  $('input[name="agreenoyes"]').change(function() {
+  var selectedValue = $(this).attr('id');
+  $('.group_free_slot_swap, .group3').hide(); // hide all groups
+
+  if (selectedValue === 'in_slot') {
+  var courseCode = $('#course-select').val();
+  if (!courseCode) {
+    alert('Please select a course code');
+    return; // Exit the function if course code is blank
+  }
+      $('#hint').hide();
+const table2 = document.getElementById("table2");
+table2.style.display = 'block';
+const hint_freeslot = document.getElementById("hint_freeslot");
+    hint_freeslot.style.display = 'block';
+table2.parentElement.style.display = 'block'; // Show the table's parent element
+
+var instructor = $('#instructor').val().trim(); // Get the instructor value
+var section = $('#section1').val().trim(); // Get the section value
+var semester = $('#semester1').val().trim(); // Get the semester value
+var table2Rows = table2.getElementsByTagName('tr');
+
+
+var classItems = document.querySelectorAll('[data-semester1][data-day1][data-section1][data-day][data-time]');
+var busySlots = [];
+console.log('classItems length:', classItems.length);
+
+for (var i = 0; i < classItems.length; i++) {
+  var classItem = classItems[i];
+  var classSemester = classItem.getAttribute('data-semester1');
+  var classSection = classItem.getAttribute('data-section1');
+  var classDay = classItem.getAttribute('data-day1');
+  var classTime = classItem.getAttribute('data-time');
+  var currentSlot = classDay + ' ' + classTime;
+ 
+
+  if (semester === classSemester && section === classSection) {
+    var slotData = {
+      currentSlot
+    };
+    busySlots.push(slotData);
+    console.log('busyslot:', busySlots);
+  }
+
+}
+for (var j = 0; j < table2Rows.length; j++) {
+  var row = table2Rows[j];
+  var rowInstructor = row.getAttribute('data-instructor');
+  var rowDay = row.getAttribute('data-day');
+  var rowTime = row.getAttribute('data-time');
+  var currentSlot = rowDay + ' ' + rowTime;
+
+  if (instructor !== '' && instructor === rowInstructor) {
+    row.style.display = 'none';
+  } else if (busySlots.length === 0) {
+    row.style.display = 'table-row'; // Show the row if there are no busy slots for the specified semester and section
+  } else if (!busySlots.some(slot => slot.currentSlot === currentSlot)) {
+    row.style.display = 'table-row'; // Show the row if the slot is not busy for the instructor in the specified semester and section
+  } else {
+    row.style.display = 'none'; // Hide the row if the slot is busy for the instructor in the specified semester and section
+  }
+}
+      $('.group_lecture_swap2').hide();
+      $('.group_lecture_swap2').hide();
+      const table11 = document.getElementById("table1");
+      table11.style.display = 'none';
+      $('.group3 select').val(''); 
+
+    }
+
+
+  else if (selectedValue === 'lecture') {
+    var courseCode = $('#course-select').val();
+    if (!courseCode) {
+      alert('Please select a course code');
+      return; // Exit the function if course code is blank
+    }
+    const table2 = document.getElementById("table2");
+        table2.style.display = 'none';
+    $('.group3').show(); // show group 2 fields
+    $('.group_free_slot_swap select').val(''); 
+    $('#hint_freeslot').hide();
+  }
+
+
+});
+
+
+$('input[name="option"]').change(function() {
+  var selectedValue = $(this).attr('id');
+  $('.group_free_slot_swap, .group3').hide(); // hide all groups
+
+
+if (selectedValue === 'remove') {
+    $('#course-select').show();
+    $('.group_lecture_swap1').val('');
+    $('.group_lecture_swap2').val('');
+    $('#course-select').val('');
+    $('.group_lecture_swap1').hide('');
+    $('.group_lecture_swap2').hide('');
+    $('.swap').hide();
+    $('#table2').hide();
+    $('#table').hide();
+    $('#table1').hide();
+    $('.group_Add_Lecture').hide();
+    $('.group_Add_Lecture').val('');
+    $('.group_edit').hide();
+      $('.group_edit').val('');
+      $('.group_Edit_Lecture').hide();
+      $('.group_Edit_Lecture').val('');
+      $('#course-select_edit').val('');
+      $('#hint_freeslot').hide();
+      $('#hint').hide();
+      $('#semester_add').val('');
+      $('#section_add').val('');
+      $('#instructor_add').val('');
+      $('#course_add').val('');
+  }
+
+  else if (selectedValue === 'swap') {
+    $('#course-select').show();
+    $('#course-select').val('');
+    $('.swap').show();
+    // $('#course-select').show();
+      $('.group_lecture_swap1').hide();
+      $('#table').hide();
+      $('.group_Add_Lecture').hide();
+      $('.group_Add_Lecture').val('');
+      $('#table2').hide();
+      $('.group_edit').hide();
+      $('.group_edit').val('');
+      $('.group_Edit_Lecture').hide();
+      $('.group_Edit_Lecture').val('');
+      $('#course-select_edit').val('');
+      $('#table1').hide();
+      $('#hint_freeslot').hide();
+      $('#hint').hide();
+      $('#semester_add').val('');
+      $('#section_add').val('');
+      $('#instructor_add').val('');
+      $('#course_add').val('');
+         
+
+  }
+  else if (selectedValue === 'Add') {
+    $('.group_lecture_swap1').val('');
+    $('.group_lecture_swap2').val('');
+    $('#course-select').hide();
+    $('.group_lecture_swap1').hide('');
+    $('.group_lecture_swap2').hide('');
+    $('.swap').hide();
+    $('#table2').hide();
+    $('#table').hide();
+    $('.group_edit').hide();
+      $('.group_edit').val('');
+      $('#course-select_edit').val('');
+      $('#table1').hide();
+      $('.group_Edit_Lecture').hide();
+      $('.group_Edit_Lecture').val('');
+      $('#hint_freeslot').hide();
+      $('#hint').hide();
+    
+    $('#course-select').val('');
+    // $('#course-select').show();
+      $('.group_lecture_swap1').hide();
+      $('#table').hide();
+      $('.group_Add_Lecture').val('');
+      $('.group_Add_Lecture').show();
+      $('.group_Edit_Lecture').hide();
+      $('.group_Edit_Lecture').val('');
+
+  }
+  else if (selectedValue === 'Edit') {
+      $('#course-select').hide();
+      $('.group_lecture_swap1').val('');
+      $('.group_lecture_swap2').val('');
+      $('#course-select').val('');
+      $('.group_lecture_swap1').hide('');
+      $('.group_lecture_swap2').hide('');
+      $('.swap').hide();
+      $('.group_edit').show();
+      $('#table2').hide();
+      $('#table').hide();
+      $('#course-select').val('');
+      // $('#course-select').show();
+      $('.group_lecture_swap1').hide();
+      $('#table').hide();
+      $('.group_Add_Lecture').hide();
+      $('.group_Add_Lecture').val('');
+      $('.group_Add_edit').hide();
+      $('#table1').hide();
+      $('#hint_freeslot').hide();
+      $('#hint').hide();
+      
+
+  }
+});
+$('#instructor_add, #section_add, #semester_add').on('change', function() {
+  var selectedInstructor = $('#instructor_add').val().trim(); // Get the updated instructor value
+  var selectedSection = $('#section_add').val().trim(); // Get the updated section value
+  var selectedSemester = $('#semester_add').val().trim(); // Get the updated semester value
+
+  if (selectedInstructor !== '' && selectedSection !== '' && selectedSemester !== '') {
+    const targetTable = document.getElementById("table2");
+    targetTable.style.display = 'block';
+    targetTable.parentElement.style.display = 'block'; // Show the table's parent element
+    const hint_freeslot = document.getElementById("hint_freeslot");
+    hint_freeslot.style.display = 'block';
+    var tableRows = targetTable.getElementsByTagName('tr');
+
+    var classItems = document.querySelectorAll('[data-semester1][data-day1][data-section1][data-day][data-time]');
+    var busySlots = [];
+    console.log('classItems length:', classItems.length);
+
+    for (var i = 0; i < classItems.length; i++) {
+      var classItem = classItems[i];
+      var classSemester = classItem.getAttribute('data-semester1');
+      var classSection = classItem.getAttribute('data-section1');
+      var classDay = classItem.getAttribute('data-day1');
+      var classTime = classItem.getAttribute('data-time');
+      var currentSlot = classDay + ' ' + classTime;
+
+      if (selectedSemester === classSemester && selectedSection === classSection) {
+        var slotData = {
+          currentSlot
+        };
+        busySlots.push(slotData);
+        console.log('busySlots:', busySlots);
+      }
+    }
+
+    for (var j = 0; j < tableRows.length; j++) {
+      var row = tableRows[j];
+      var rowInstructor = row.getAttribute('data-instructor');
+      var rowDay = row.getAttribute('data-day');
+      var rowTime = row.getAttribute('data-time');
+      var currentSlot = rowDay + ' ' + rowTime;
+
+      if (selectedInstructor !== '' && selectedInstructor === rowInstructor) {
+        row.style.display = 'none';
+      } else if (busySlots.length === 0) {
+        row.style.display = 'table-row'; // Show the row if there are no busy slots for the specified semester and section
+      } else if (!busySlots.some(slot => slot.currentSlot === currentSlot)) {
+        row.style.display = 'table-row'; // Show the row if the slot is not busy for the instructor in the specified semester and section
+      } else {
+        row.style.display = 'none'; // Hide the row if the slot is busy for the instructor in the specified semester and section
+      }
+    }
+  } else {
+    // Hide the table and reset the displayed rows if any of the fields is empty
+    const targetTable = document.getElementById("table2");
+    targetTable.style.display = 'none';
+    
+    targetTable.parentElement.style.display = 'none'; // Hide the table's parent element
+
+    var tableRows = targetTable.getElementsByTagName('tr');
+    for (var j = 0; j < tableRows.length; j++) {
+      var row = tableRows[j];
+      row.style.display = 'table-row';
+    }
+  }
+});
+
+
+</script>
+
+<script>
+  document.getElementById('course-select').addEventListener('change', function() {
+    const table = document.getElementById("table");
+    table.style.display = 'block';
+    $('.group_lecture_swap1').hide();
+    $('.group_lecture_swap2').hide();
+    $('#table1').hide();
+    const hint = document.getElementById("hint");
+    hint.style.display = 'block';
+    
+    var selectedCourseCode = this.value;
+    var courseRows = document.getElementsByClassName('course-row');
+
+    for (var i = 0; i < courseRows.length; i++) {
+      var row = courseRows[i];
+      var rowCourseCode = row.getAttribute('data-course-code');
+
+      if (selectedCourseCode === '' || selectedCourseCode === rowCourseCode) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+
+  document.getElementById('course-select_edit').addEventListener('change', function() {
+    const table = document.getElementById("table");
+    table.style.display = 'block';
+    $('.group_lecture_swap1').hide();
+    $('.group_lecture_swap2').hide();
+    const hint = document.getElementById("hint");
+    hint.style.display = 'block';
+    var selectedCourseCode = this.value;
+    var courseRows = document.getElementsByClassName('course-row');
+
+    for (var i = 0; i < courseRows.length; i++) {
+      var row = courseRows[i];
+      var rowCourseCode = row.getAttribute('data-course-code');
+
+      if (selectedCourseCode === '' || selectedCourseCode === rowCourseCode) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+
+  document.getElementById('course-select').addEventListener('change', function() {
+    const table = document.getElementById("table");
+    table.style.display = 'block';
+    $('.group_lecture_swap1').hide();
+    $('.group_lecture_swap2').hide();
+    var selectedCourseCode = this.value;
+    var courseRows = document.getElementsByClassName('course-row');
+
+    for (var i = 0; i < courseRows.length; i++) {
+      var row = courseRows[i];
+      var rowCourseCode = row.getAttribute('data-course-code');
+
+      if (selectedCourseCode === '' || selectedCourseCode === rowCourseCode) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+
+const table = document.getElementById("table");
+const inputInstructor = document.getElementById("instructor");
+const inputCourse = document.getElementById("Course");
+const inputSection = document.getElementById("section1");
+const inputSemester = document.getElementById("semester1");
+const inputDay = document.getElementById("day");
+const inputTime = document.getElementById("Time");
+const inputRoom = document.getElementById("Room");
+
+const instructorEdit = document.getElementById('instructor_Edit');
+
+table.addEventListener("dblclick", function(event) {
+  const selectedRow = event.target.closest(".course-row");
+  
+  if (selectedRow) {
+    // Remove the existing selected class from other rows
+    const prevSelectedRow = table.querySelector(".selected-row");
+    if (prevSelectedRow) {
+      prevSelectedRow.classList.remove("selected-row");
+    }
+  
+    // Add the selected class to the current row
+    selectedRow.classList.add("selected-row");
+  
+    // Get the values from the selected row
+    const instructorName = selectedRow.cells[0].textContent;
+    const courseName = selectedRow.cells[1].textContent;
+    const sectionName = selectedRow.cells[2].textContent;
+    const semesterNo = selectedRow.cells[3].textContent;
+    const time = selectedRow.cells[4].textContent;
+    const day = selectedRow.cells[5].textContent;
+    const roomName = selectedRow.cells[6].textContent;
+  
+    // Update the input fields based on the radio button selection
+    if ($('input[type="radio"][value="Edit"]').is(":checked")) {
+      instructorEdit.value = instructorName;
+      inputCourse.value = courseName;
+      inputSection.value = sectionName;
+      inputSemester.value = semesterNo;
+      $('#instructor').hide();
+      $('#Room').hide();
+      $('#Time').hide();
+      $('#day').hide();
+      $('.group_Edit_Lecture').show();
+      $('.group_lecture_swap1').show();
+      const hint = document.getElementById("hint");
+    hint.style.display = 'none';
+
+    } else {
+      inputInstructor.value = instructorName;
+      inputCourse.value = courseName;
+      inputSection.value = sectionName;
+      inputSemester.value = semesterNo;
+      inputTime.value = time;
+      inputDay.value = day;
+      inputRoom.value = roomName;
+      $('.group_Edit_Lecture').hide();
+      $('.group_lecture_swap1').show();
+      const hint = document.getElementById("hint");
+       hint.style.display = 'none';
+    }
+  
+    $('#table').hide();
+  }
+});
+
+
+
+
+document.getElementById('course-select1').addEventListener('change', function() {
+    const table = document.getElementById("table1");
+    table.style.display = 'block';
+    $('.group_lecture_swap2').hide();
+    const hint_1 = document.getElementById("hint_1");
+      hint_1.style.display = 'block';
+    var selectedCourseCode = this.value;
+    var courseRows = document.getElementsByClassName('course-row');
+
+    for (var i = 0; i < courseRows.length; i++) {
+      var row = courseRows[i];
+      var rowCourseCode = row.getAttribute('data-course-code');
+
+      if (selectedCourseCode === '' || selectedCourseCode === rowCourseCode) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+
+const table1 = document.getElementById("table1");
+const inputInstructor1 = document.getElementById("instructor1");
+const inputCourse1 = document.getElementById("course1");
+const inputDay1 = document.getElementById("day1");
+const inputTime1 = document.getElementById("time1");
+const inputRoom1 = document.getElementById("room1");
+
+table1.addEventListener("dblclick", function(event) {
+  const selectedRow = event.target.closest(".course-row");
+  $('.group_lecture_swap2').show();
+ 
+  if (selectedRow) {
+    const prevSelectedRow = table1.querySelector(".selected-row");
+    if (prevSelectedRow) {
+      prevSelectedRow.classList.remove("selected-row");
+    }
+    const hint_1 = document.getElementById("hint_1");
+      hint_1.style.display = 'none';
+    selectedRow.classList.add("selected-row");
+  
+    const instructorName = selectedRow.cells[0].innerText;
+    const courseName = selectedRow.cells[1].innerText;
+    const time = selectedRow.cells[2].innerText;
+    const day = selectedRow.cells[3].innerText;
+    const roomName = selectedRow.cells[4].innerText;
+  
+    inputInstructor1.value = instructorName;
+    inputCourse1.value = courseName;
+    inputTime1.value = time;
+    inputDay1.value = day;
+    inputRoom1.value = roomName;
+    
+    table1.style.display = 'none';
+  
+  }
+});
+
+  const table2 = document.getElementById("table2");
+  const inputDay2 = document.getElementById("slot_day");
+  const inputTime2 = document.getElementById("slot_time");
+  const inputRoom2 = document.getElementById("slot_room");
+
+  table2.addEventListener("dblclick", function(event) {
+    const selectedRow = event.target.closest("tr");
+    $('.group_free_slot_swap').show();
+
+    if (selectedRow) {
+      const day = selectedRow.cells[0].innerText;
+      const time = selectedRow.cells[1].innerText;
+      const room = selectedRow.cells[2].innerText;
+
+      inputDay2.value = day;
+      inputTime2.value = time;
+      inputRoom2.value = room;
+
+      table2.style.display = 'none';
+      const hint_freeslot = document.getElementById("hint_freeslot");
+    hint_freeslot.style.display = 'none';
+     
+    }
+  });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/styleAdmin.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/style.css' %}">
+
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <title>Edit Profile</title>
+         <style>  
+    .alert {
+        padding: 20px;
+        background-color: #76d6d3;
+        color: white;
+        height: 60px;
+      }
+      
+      .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      
+      .closebtn:hover {
+        color: black;
+      }
+          </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="admin_dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name">Dashboard</span>
+                </a></li>
+                <li><a href="editProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name" style="color: aqua; font-size: 22px;" >Profile</span>
+                </a></li>
+                <li><a href="rooms.html">
+                    <i class='bx bxs-file-plus'></i>
+                    <span class="link-name">Room Details</span>
+                </a></li>
+                <li><a href="courses.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Course details</span>
+                </a></li>
+                <li><a href="sections.html">
+                    <i class='bx bxs-castle'></i>
+                    <span class="link-name">Section Details</span>
+                </a>
+                </li>
+                <li><a href="semesters.html">
+                    <i class='bx bxs-objects-horizontal-center'></i>
+                    <span class="link-name">Semester Details</span>
+                </a></li>
+                <li><a href="faculty.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Faculty Details</span>
+                </a></li>
+                <li><a href="students.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Student Details</span>
+                </a></li>
+                <li><a href="generate_timetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name">Generate Timetable</span>
+                </a></li>
+                <li><a href="viewTimetable.html">
+                    <i class='bx bx-time'></i>
+                    <span class="link-name">View Timetable</span>
+                </a></li>
+                <li><a href="check_approval_status.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name">Check approval status</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <!-- <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i> -->
+            
+            <div class="popup" onclick="myFunction()">
+                {% if user.u_profile_pic %}
+                    <img class="profilepic" src="{{ user.u_profile_pic.url }}" alt="" style="height: 35px; width: 35px;">
+                {% else %}
+                    <img class="profilepic" src="static/Admin/images/Profilepic.png" alt="" style="height: 35px; width: 35px;">
+                {% endif %}
+                
+                <div class="popuptext" id="myPopup">
+                    {% if user.u_profile_pic %}
+                        <img src="{{ user.u_profile_pic.url }}" alt="Profile Picture" style="height: 50px; width: 50px;">
+                    {% else %}
+                        <img src="static/Admin/images/Profilepic.png" alt="John" style="height: 70px; width: 70px;"">
+                    {% endif %}
+                    <h1>{{ user.u_name }}</h1>
+                    <p class="title">Time table coordinator in CS department</p>
+                    <p>GC Women University Sialkot</p>
+                    <a href="editProfile.html"><button ><i class='bx bxs-pencil'></i> Edit profile</button></a>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="dash-content">
+            <div class="overview" style="display: flex; align-items:last baseline; flex-direction: row;">
+                <div class="title">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="text">Profile Page</span>
+                </div>
+                <!-- <button type="submit" form="profile-form" id="fsavebtn" name="edit_profile"class="submit_button">Save changes</button>  -->
+            </div>
+            <section class="intro">
+                <fieldset class="Fieldset ">
+                   {% for message in messages %}
+                           <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+                           {% if message.tags %}
+                               <div class="toast active">
+                                   <div class="toast-content">
+                                         <div class="alert">
+                                           <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                           {{ message }}
+                                         </div>
+                                         
+                                           <span class="text text-2"></span>
+                                       </div>
+                                       </div>
+                           {% endif %}
+                       {% endfor %}
+                   <div class="updateData">
+                       <form id="profile-form" name="profile-form" class="Fieldset" action="a_saveeditfrofile" method="post" enctype="multipart/form-data">
+                          
+
+                    {% csrf_token %}
+                                <div class="activity-data">
+                                    <div class="Timtetablepic">
+                                        <div class="profile-pic">
+                                            <label class="-label" for="file">
+                                                <span class="glyphicon glyphicon-camera"></span>
+                                                <span>Change Image</span>
+                                            </label>
+                                            <input id="file" name="avatar" type="file" accept="image/*" onchange="loadFile(event)">
+                                            {% if user.u_profile_pic %}
+                                                <img src="{{ user.u_profile_pic.url }}" id="output" alt="Profile Picture">
+                                            {% else %}
+                                                <img src="static/Faculty/Images/Profilepic.png" id="output" width="200" />
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="profilelabel" style="font-size:larger;  color:#2B7A77;">Personal Details</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="name" name="name" value="{{user.u_name}}" placeholder="Name" required>
+                                    
+                                    <input type="email" placeholder="Email" name="email" value="{{user.u_email}}" readonly style="background-color: rgb(236, 236, 236);" id="ffemail" required>
+                                </div>
+                                <div>
+                                    {% if user.u_city %}
+                                    <input type="text" name="a_city" placeholder="City" value="{{ user.u_city }}">
+                                    {% else %}
+                                    <input type="text" name="a_city" placeholder="City" value="">
+                                    {% endif %}
+                                    <!-- <i class="far fa-eye" id="togglePassword" style="margin-left: -40px; margin-top: 15px; cursor: pointer;"></i> -->
+                                    {% if user.u_contactNo %}
+                                    <input type="tel" name="contact_no" placeholder="Contact Number" id="fphone" required pattern="^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$" title="Must the Format 00923XX-XXX-XXXX" value="{{ user.u_contactNo }}">
+                                            {% else %}
+                                            <input type="tel" name="contact_no" placeholder="Contact Number" id="fphone" required pattern="^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$" title="Must the Format 00923XX-XXX-XXXX" value="">
+                                            {% endif %}
+                                
+
+                                </div>
+                                <div>
+                                    <select id="fgender" name="gender" >
+                                        <option value="Female">Female</option>
+                                        <option value="Male">Male</option>
+
+                                    </select>
+                                    <select id="department" name="department" >
+                                        <option value="CS">CS</option>
+                                        <option value="IT">IT</option>
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <!-- <input multiple type="file" name="a_certificates" class="document" id="uploadfile" style="background-color: white;"> -->
+                                    <button style="margin-left: 45%; margin-top: 45%;"  type="submit" form="profile-form" id="fsavebtn" name="edit_profile"class="submit_button">Save changes</button>
+                                </div>
+                                 
+                            </form>
+                        </div>
+
+                    </fieldset>       
+            </section>
+                
+        </div>
+    </section>
+    <script src="static/Admin/javascript/addForm.js"></script>
+    <script src="static/Admin/javascript/script.js"></script>
+    <script>
+        var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+        URL.revokeObjectURL(output.src)
+        }
+    };
+
+    const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#id_password');
+
+  togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('fa-eye-slash');
+});
+    </script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          $('#profile-form').on('submit', function(event) {
+            event.preventDefault(); // prevent the form from submitting normally
+            var formData = new FormData(this); // create a new FormData object to store the form data
+            $.ajax({
+              url: 'a_saveeditfrofile',
+              type: 'POST',
+              data: formData,
+              processData: false, // tell jQuery not to process the data
+              contentType: false, // tell jQuery not to set contentType
+              success: function(response) {
+                // handle the response from the server
+                location.reload();
+                window.scrollTo(0, 0);
+              }
+            });
+          });
+        });
+        const messages = document.querySelectorAll('.toast.active');
+        // Loop through each message and remove after 4 seconds
+        messages.forEach(message => {
+            setTimeout(() => {
+                message.remove();
+                if (messages) {
+                    messages.innerHTML = '';
+                }
+            }, 4000);
+        });
+
+        </script>
+</body>
+
+</html>

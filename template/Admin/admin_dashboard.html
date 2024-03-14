@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Admin/Stylesheets/style.css' %}">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Admin Dashboard Panel</title> 
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="static/Admin/images/logo_teccart.png" alt="">
+            </div>
+        </div>
+        <div style="height: 5px; width: 100%; background-color: grey;"></div>
+
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="admin_dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-name" style="color: aqua; font-size: 20px;" >Dahsboard</span>
+                </a></li>
+                <li><a href="editProfile.html">
+                    <i class='bx bx-user-circle'></i>
+                    <span class="link-name">Profile</span>
+                </a></li>
+                <li><a href="rooms.html">
+                    <i class='bx bxs-file-plus'></i>
+                    <span class="link-name">Room Details</span>
+                </a></li>
+                <li><a href="courses.html">
+                    <i class='bx bx-selection'></i>
+                    <span class="link-name">Course details</span>
+                </a></li>
+                <li><a href="sections.html">
+                    <i class='bx bxs-castle'></i>
+                    <span class="link-name">Section Details</span>
+                </a>
+                </li>
+                <li><a href="semesters.html">
+                    <i class='bx bxs-objects-horizontal-center'></i>
+                    <span class="link-name">Semester Details</span>
+                </a></li>
+                <li><a href="faculty.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Faculty Details</span>
+                </a></li>
+                <li><a href="students.html">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-name">Student Details</span>
+                </a></li>
+                <li><a href="generate_timetable.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link-name">Generate Timetable</span>
+                </a></li>
+                <li><a href="viewTimetable.html">
+                    <i class='bx bx-time'></i>
+                    <span class="link-name">View Timetable</span>
+                </a></li>
+                <li><a href="check_approval_status.html">
+                    <i class='bx bx-select-multiple' ></i>
+                    <span class="link-name">Check approval status</span>
+                </a></li>
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="logout_view">
+                    <i class='bx bx-exit'></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class='bx bx-menu sidebar-toggle' id="header-toggle"></i>
+
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <!-- <i class='bx bx-upload upload'></i>
+            <i class='bx bx-notification notification'></i>
+             -->
+            <div class="popup" onclick="myFunction()">
+                {% if user.u_profile_pic %}
+                    <img class="profilepic" src="{{ user.u_profile_pic.url }}" alt="" style="height: 35px; width: 35px;">
+                {% else %}
+                    <img class="profilepic" src="static/Admin/images/Profilepic.png" alt="" style="height: 35px; width: 35px;">
+                {% endif %}
+                
+                <div class="popuptext" id="myPopup">
+                    {% if user.u_profile_pic %}
+                        <img src="{{ user.u_profile_pic.url }}" alt="Profile Picture" style="height: 50px; width: 50px;">
+                    {% else %}
+                        <img src="static/Admin/images/Profilepic.png" alt="John" style="height: 70px; width: 70px;"">
+                    {% endif %}
+                    <h1>{{ user.u_name }}</h1>
+                    <p class="title">Time table coordinator in CS department</p>
+                    <p>GC Women University Sialkot</p>
+                    <a href="editProfile.html"><button ><i class='bx bxs-pencil'></i> Edit profile</button></a>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class='bx bx-tachometer'></i>
+                    <span class="text">Dashboard</span>
+                </div>
+
+                <div class="boxes">
+                    <div class="box box1">
+                        <img src="static/Admin/Icons/faculty.svg" alt="">
+                        <span class="number">{{facultycount}}</span>
+                        <span class="text">Registered Faculty</span>
+                    </div>
+                    <div class="box box2">
+                        <img src="static/Admin/Icons/students.svg" alt="">
+                        <span class="number">{{studentscount}}</span>
+                        <span class="text">Registered Students</span>
+                    </div>
+                    <div class="box box3">
+                        <img src="static/Admin/images/Rooms.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity">
+                <div class="title">
+                    <i class='bx bx-time'></i>
+                    <span class="text">Recent Activity</span>
+                </div>
+
+                <div class="activity-data">
+                    
+                    <div class="data names">
+                        <span class="data-title">Name</span>
+                        {% for member in faculty %}
+                        <span class="dataset">{{member.u_name}}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="data email">
+                        <span class="data-title">Email</span>
+                        {% for member in faculty %}
+                        <span class="dataset">{{member.u_email}}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="data joined">
+                        <span class="data-title">Joined</span>
+                        {% for member in faculty %}
+                        <span class="dataset">25-05-2023</span>
+                        {% endfor %}
+                    </div>
+                    <div class="data type">
+                        <span class="data-title">Type</span>
+                        {% for member in faculty %}
+                        <span class="dataset">Faculty</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // When the user clicks on <div>, open the popup
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+        }
+        </script>
+    <script src="static/Admin/javascript/script.js"></script>
+</body>
+</html>
