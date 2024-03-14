@@ -1,0 +1,76 @@
+.dash-content .overview{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+.dash-content button {
+  margin-top: 50px;
+  border-radius: 10px;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+  background-color: rgba(255, 170, 169, 0.42);
+  border:none;
+} 
+.dash-content button:hover{
+  background-color: #7dcbc9;
+}                            
+.intro {
+  height: 100%;
+}
+table {
+    table-layout: fixed ;
+    width: 100% ;
+  }
+  td {
+    width: 25% ;
+  }
+table tr a{
+  text-decoration: none;
+}
+table tr a i{
+  font-size: 20px;
+  min-width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#2B7A77;
+}
+th, td {
+    overflow: hidden; 
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th, td ul{
+  padding-left: 30px;
+}
+tr:hover {
+    background-color: #c6edec;
+}
+tr:nth-child(even) {
+    background-color: #c6edec;
+}
+thead th {
+  text-align: center;
+  background-color: #2B7A77;
+  color: #fff;
+}
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 15px;
+  text-align: left;
+}
+.table-scroll table tbody td {
+  font-size: 13px;
+}
+thead {
+  top: 0;
+  position: sticky;
+}

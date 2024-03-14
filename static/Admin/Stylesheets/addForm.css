@@ -1,0 +1,63 @@
+.dashboard .dash-content #add_form, .dashboard .dash-content .edit_form, .dashboard .dash-content .mail_form{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding-right: 10px;
+  margin: 0 auto;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: none;
+}
+#add_form .heading, .edit_form .heading, .mail_form .heading{
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #2B7A77;
+  font-weight: bold;
+  padding: 10%;
+  background-color:#c6edec ;
+}
+#add_form .form-details, .edit_form .form-details, .mail_form .form-details{
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+#add_form .form-details label, .edit_form .form-details label,.mail_form .form-details label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#add_form .form-details input,.edit_form .form-details input, .mail_form .form-details input {
+  height: 30px;
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+}
+#add_form .form-details .buttons,.edit_form .form-details .buttons, .mail_form .form-details .buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#add_form .form-details .buttons #save, #cancel , .edit_form .form-details .buttons #save, #cancel,.mail_form .form-details .buttons #save, #cancel {
+  color: white;
+  background-color: #2B7A77;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  width: 80px;
+  padding: 5px;
+  font-size: 12px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+#add_form .form-details .buttons button:hover, .dash-content button:hover {
+  background-color: #7dcbc9 !important;
+}

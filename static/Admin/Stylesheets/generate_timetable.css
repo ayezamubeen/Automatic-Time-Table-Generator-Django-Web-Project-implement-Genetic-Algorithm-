@@ -1,0 +1,90 @@
+.details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+  
+  .class_details, .timing_details, .course_details, .faculty_details {
+    grid-column: span 1;
+  }
+  
+  .allocation {
+    grid-column: span 2;
+  }
+  
+  .class_details div, .timing_details div, .course_details div, .faculty_details div, .allocation div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .class_details label, .timing_details label, .course_details label, .faculty_details label, .allocation label {
+    margin-bottom: 5px;
+  }
+  
+  .class_details input, .timing_details input, .course_details input, .faculty_details input, .allocation select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .class_details select, .timing_details select, .course_details select, .faculty_details select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .section_semester, .working_days, .course_faculty {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+  
+  .section_semester div, .working_days div, .course_faculty div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .section_semester label, .working_days label, .course_faculty label {
+    margin-bottom: 5px;
+  }
+  
+  .section_semester select, .working_days input, .course_faculty select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Color styles */
+  .intro {
+    background-color:rgba(0, 187, 211, 0.12);
+    padding: 30px;
+    color: #333;
+  }
+  
+  .class_details label, .timing_details label, .course_details label, .faculty_details label, .allocation label,
+  .section_semester label, .working_days label, .course_faculty label {
+    color: #666;
+  }
+  
+  .class_details input, .timing_details input, .course_details input, .faculty_details input, .allocation select,
+  .section_semester select, .working_days input, .course_faculty select {
+    background-color: #fff;
+    color: #333;
+    border-color: #ccc;
+  }
+  
+  button {
+    background-color: #2B7A77;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #5cbdb9;
+  }

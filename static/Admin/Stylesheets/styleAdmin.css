@@ -1,0 +1,341 @@
+/* ===== Google Font Import - Poppins ===== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+
+.profile-pic {
+  color: transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  padding-left:40%;
+  position:absolute;
+  transition: all 0.3s ease;
+  top: 80px;
+}
+.profile-pic input {
+  align-items: center;
+  display: none;
+}
+.profile-pic img {
+  position: absolute;
+  object-fit: cover;
+  width: 165px;
+  height: 165px;
+  box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+  border-radius: 100px;
+  z-index: 0;
+}
+.profile-pic .-label {
+  cursor: pointer;
+  height: 165px;
+  width: 165px;
+}
+.profile-pic:hover .-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  color: #fafafa;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 100px;
+  margin-bottom: 0;
+}
+.profile-pic span {
+  display: inline-flex;
+  padding: 0.2em;
+  height: 2em;
+}
+
+body a:hover {
+  text-decoration: none;
+}
+
+#regbtn,
+#submitga {
+  font-weight: bold;
+  position: relative;
+  top: 25px;
+  left: -160px;
+  color: #4d4b4b;
+  font-size: 20px;
+}
+
+.update {
+  margin-top: 50px;
+  margin-left: 30px;
+}
+fieldset {
+
+  border-color: #47b9b6;
+}
+
+#teach {
+  color: #111111;
+}
+
+.fielsupdate {
+  height: 40px;
+  width: 48%;
+  margin: 5px;
+  border-color: #c0c0c0;
+}
+input[type="time"] {
+  height: 40px;
+  width: 40%;
+  margin: 5px;
+  border-color: #c0c0c0;
+}
+::placeholder {
+  font-size: 16px;
+  color: #c4c5c5;
+}
+.fielsupdate:hover,
+.fielsupdate:active{
+  border-color: #2be2dc;
+  transition: 0.5s;
+  color: #f02f2f;
+}
+input[type="text"]:focus {
+  border: #03eed9; /* oranges! yey */
+}
+#regbtn,
+#fsavebtn,
+#submitga,
+#submitgp {
+  font-size: medium;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  width: 130px;
+  margin-left: 45%;
+  height: 45px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  background: #2b7a77;
+  border-color: #2b7a77;
+}
+#regbtn:hover,
+#fsavebtn:hover,
+#submitga:hover,
+#submitgp:hover {
+  background: #8ed3cf;
+  transition: 0.5s;
+}
+
+#starttime,
+#endtime {
+  font-size: 20px;
+  width: 47%;
+  display: flex;
+}
+
+#unitiming {
+  font-size: 18px;
+  color: black;
+}
+#yesno {
+  font-size: 15px;
+  color: #000;
+}
+textarea{
+  width: 100%;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  /* font-weight: 600; */
+  height: 100px;
+  border: .5 solid #777;
+  padding: 10px 20px;
+}
+
+textarea:focus{
+  border-color: #2b7a77;
+
+}
+
+.updateData {
+  background: #fafafa;
+  padding: 30px 40px;
+}
+.updateData div {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+  column-gap: 18px;
+}
+.updateData div input,
+select,.timetable,.fileFieldLabel {
+  width: 50%;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111111;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #777;
+  transition: .1s ease-in;
+}
+.updateData div input:focus,
+select:focus,.timetable:focus{
+    transform: scale(102%);
+  border: 1px solid #2b7a77;
+}
+.ptime{
+  left:30%;
+}
+.submit_button {
+  margin: 0 !important;
+  margin: 0 20px 0 auto !important;
+}
+.updateData div:nth-child(5){
+    column-gap: 15px;
+}
+.updateData div .checkbox_container{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+  }
+  .checkbox_container div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px !important;
+  }
+.checkbox_container label{
+  font-size: 13px !important;
+  font-weight: 700;
+  opacity: .8;
+  margin-bottom: -1px;
+}
+.updateData div label {
+    width: 100%;
+    font-size: 12px;
+}
+.updateData div .checkbox_container input{
+    width: 20px;
+    height: 20px;
+}
+.updateData div .fileField{
+    width: 50%;
+    display: none;
+}
+.updateData div .fileFieldLabel{
+    width: 50%;
+    /* display: none; */
+}
+/* .updateData div .addmore_button{
+    text-align: center;
+    outline: none;
+    width: 15%;
+} */
+.updateData #filefields_container{
+    flex-wrap: wrap;
+}
+.updateData #filefields_container div{
+    width: 100%;
+    /* margin: 0 50px; */
+    margin-bottom: 5px ;
+}
+.info{
+  font-weight:450;
+  position: relative;
+  top: 20px;
+  left: 220px;
+  color: #4d4b4b;
+  font-size: 20px;
+}
+.Fieldset, .updateData{
+  background-color: #daf7f6;
+}
+
+legend{
+  font-weight: bold;
+}
+
+.profilerlabel{
+  font-weight:400;
+}
+
+* {
+  /* Change your font family */
+  font-family: sans-serif;
+}
+
+.content-table {
+  border-collapse: collapse;
+  margin-left: 200px;
+  margin-top: 30px;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #02856b;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+.daytr {
+  background-color: #58e0c5;}
+.content-table td:hover {
+  background-color: #02856b;
+  color: #ffffff;
+  cursor: pointer;
+  transform: scale(110%);
+}
+
+.content-table th,
+.content-table td {
+  padding: 12px 15px;
+  transition: .2s ease-in-out;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879; ;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+.td1,.td2{
+  color: #000;
+  justify-content: center;
+}
+.td1{
+  font-size: 20px;
+}
+.timetable1,.timetable2,.timetable{
+  background-color:#47a793;
+  color: white;
+  width: 200px;
+  margin-right: 0px;
+}
+
+
+.search{
+  display: flex;
+
+  justify-content: space-around;
+}
+.timetable:hover{
+  size: 100px;
+}
